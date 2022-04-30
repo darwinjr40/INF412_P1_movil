@@ -3,35 +3,26 @@ import 'dart:convert';
 
 class Actuacion {
   int id;
-  String titulo;
+  int patient_id;
   String path;
-  String tipo;
-  String tipoArchivo;
-  String fecha;
-  String importante;
-  int procesoId;
+  String name_file;
+  String fecha_file;
 
   Actuacion({
     this.id,
-    this.titulo,
+    this.patient_id,
     this.path,
-    this.tipo,
-    this.tipoArchivo,
-    this.fecha,
-    this.importante,
-    this.procesoId,
+    this.name_file,
+    this.fecha_file,
   });
 
   factory Actuacion.fromJson(String str) => Actuacion.fromMap(json.decode(str));
 
   factory Actuacion.fromMap(Map<String, dynamic> json) => Actuacion(
         id: json["id"],
-        titulo: json["titulo"],
+        patient_id: json["patient_id"],
         path: json["path"],
-        tipo: json["tipo"],
-        tipoArchivo: json['tipoArchivo'],
-        fecha: json['created_at'],
-        importante: json['importante'],
-        procesoId: json["procesoId"],
+        name_file: json["name_file"],
+        fecha_file: json['fecha_file'],
       );
 }

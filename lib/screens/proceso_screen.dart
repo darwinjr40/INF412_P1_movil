@@ -19,7 +19,7 @@ class _ProcesoScreenState extends State<ProcesoScreen> {
         ModalRoute.of(context).settings.arguments as Proceso;
     return Scaffold(
       appBar: AppBar(
-        title: Text('Proceso: ${proceso.nombre}'),
+        title: Text('Proceso: ${proceso.specialty_nombre}'),
         actions: [IconButton(icon: Icon(Icons.replay), onPressed: () {})],
       ),
       body: ListView(
@@ -62,16 +62,11 @@ class _ProcesoScreenState extends State<ProcesoScreen> {
       padding: EdgeInsets.symmetric(horizontal: 15, vertical: 12),
       child: Column(
         children: [
-          filaDato('Nombre: ', proceso.nombre),
-          filaDato('Caratula: ', proceso.caratula),
-          filaDato('Jurisdiccion: ', proceso.jurisdiccion),
+          filaDato('Servicio: ', proceso.specialty_nombre),
+          filaDato('Doctor: ', proceso.doctor_nombre),
+          filaDato('descripcion: ', proceso.descripcion),
           filaDato('Tipo: ', proceso.tipo),
-          filaDato('Objeto: ', proceso.objeto),
-          filaDato('Year: ', proceso.year),
-          filaDato('Año: ', proceso.year),
-          filaDato('Número: ', proceso.numeroCausa),
-          filaDato('Tribunal: ', proceso.tribunal),
-          filaDato('Estado: ', proceso.estado),
+          filaDato('fecha: ', proceso.fecha),
         ],
       ),
     );
@@ -133,9 +128,13 @@ class _ProcesoScreenState extends State<ProcesoScreen> {
   Future<List<dynamic>> cargarActuaciones(int id) async {
     /* var response = await http.get(Uri.parse(
         'http://192.168.0.10/GestorDocumento/public/api/getActuaciones/$id')); */
-    var response = await http.get(Uri.parse(
-        'https://gestordocumento.herokuapp.com/api/getActuaciones/$id'));
+    var response = await http.get(
+        Uri.parse('http://192.168.1.2:8080/clinica/public/api/getRecipe/$id'));
+    print(response);
     var jsonResponse = convert.jsonDecode(response.body);
+    print("chaxdval");
+    print(jsonResponse);
+    print("chaval1");
     for (var item in jsonResponse) {
       Actuacion actuacion = Actuacion.fromMap(item);
       listaActuaciones.add(actuacion);
@@ -150,14 +149,14 @@ class _ProcesoScreenState extends State<ProcesoScreen> {
       var row = DataRow(
         cells: [
           DataCell(Text(
-            actuacion.titulo,
-            style: (actuacion.importante == 'si')
-                ? TextStyle(color: Colors.blue, fontWeight: FontWeight.bold)
-                : TextStyle(),
+            actuacion.name_file
+            // style: (actuacion.importante == 'si')
+            //     ? TextStyle(color: Colors.blue, fontWeight: FontWeight.bold)
+            //     : TextStyle(),
           )),
-          DataCell(Text(actuacion.tipo)),
+          DataCell(Text(actuacion.name_file)),
           DataCell(
-            (actuacion.tipoArchivo == 'imagen')
+            (actuacion.name_file == 'imagen')
                 ? Icon(
                     Icons.image_outlined,
                     color: Colors.blue,
@@ -170,7 +169,7 @@ class _ProcesoScreenState extends State<ProcesoScreen> {
           // DataCell(Text(actuacion.fecha)),
         ],
         onSelectChanged: (bool selected) {
-          print('${actuacion.titulo}');
+          print('${actuacion.name_file}');
           String path = actuacion.path;
           Navigator.pushNamed(context, 'view_archivopdf', arguments: actuacion);
         },

@@ -5,34 +5,32 @@ class User {
   int id;
   String name;
   String nombre;
-  String ci;
+  String tipo;
   String telefono;
   String email;
-  String genero;
-  int tipoId;
+  String sexo;
   // List<String> tipos;
 
   User({
     this.id,
     this.name,
     this.nombre,
-    this.ci,
+    this.tipo,
     this.telefono,
     this.email,
-    this.genero,
-    this.tipoId,
+    this.sexo,
     // this.tipos,
   });
+  
   factory User.fromJson(String str) => User.fromMap(json.decode(str));
 
   factory User.fromMap(Map<String, dynamic> json) => User(
         id: json["id"],
         name: json["name"],
         nombre: json["nombre"],
-        ci: json["ci"],
+        tipo: json["tipo"],
         telefono: json["telefono"],
         email: json["email"],
-        genero: json["genero"],
-        tipoId: json['tipoId'],
+        sexo: json["sexo"],
       );
 }

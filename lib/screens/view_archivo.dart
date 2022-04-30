@@ -12,11 +12,11 @@ class ViewArchivoPDF extends StatelessWidget {
   Widget build(BuildContext context) {
     Actuacion actuacion =
         ModalRoute.of(context).settings.arguments as Actuacion;
-    String tipo = actuacion.tipo;
+    String tipo = actuacion.name_file;
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(actuacion.titulo),
+        title: Text(actuacion.name_file),
         actions: [
           IconButton(
             icon: Icon(Icons.open_in_full),
@@ -40,26 +40,26 @@ class ViewArchivoPDF extends StatelessWidget {
               ),
               child: Column(
                 children: [
-                  fila('titulo', actuacion.titulo),
-                  fila('tipo', actuacion.tipo),
-                  fila('formato', actuacion.tipoArchivo),
-                  fila('fecha', actuacion.fecha),
+                  // fila('titulo', actuacion.patient_id),
+                  fila('tipo', actuacion.name_file),
+                  fila('formato', "PDF"),
+                  fila('fecha', actuacion.fecha_file),
                 ],
               ),
             ),
             Container(
               child: ElevatedButton(
                 onPressed: () async {
-                  if (actuacion.tipoArchivo == 'documento') {
-                    final url = actuacion.path;
-                    final file = await loadNetword(url);
-                    openPDF(context, file);
-                  }
-                  if (actuacion.tipoArchivo == 'imagen') {
-                    print('imagen');
-                    Navigator.pushNamed(context, 'image_view',
-                        arguments: actuacion.path);
-                  }
+                  // if (actuacion.tipoArchivo == 'documento') {
+                  final url = actuacion.path;
+                  final file = await loadNetword(url);
+                  openPDF(context, file);
+                  // }
+                  // if (actuacion.tipoArchivo == 'imagen') {
+                  //   print('imagen');
+                  //   Navigator.pushNamed(context, 'image_view',
+                  //       arguments: actuacion.path);
+                  // }
                 },
                 child: Text('Abrir Archivo'),
               ),
@@ -95,16 +95,23 @@ class ViewArchivoPDF extends StatelessWidget {
   }
 
   Future<File> loadNetword(String url) async {
+    print("loadNetword0a");
     final response = await http.get(Uri.parse(url));
+    print("loadNetword1a");
     final bytes = response.bodyBytes;
+    print("loadNetword2a");
     return _storeFile(url, bytes);
   }
 
   Future<File> _storeFile(String url, List<int> bytes) async {
     final filename = basename(url);
+    print("_storeFile0a");
     final dir = await getApplicationDocumentsDirectory();
+    print("_storeFile1a");
     final file = File('${dir.path}/$filename');
+    print("_storeFile2a");
     await file.writeAsBytes(bytes, flush: true);
+    print("_storeFile3a");
     return file;
   }
 

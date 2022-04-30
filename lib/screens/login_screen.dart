@@ -101,11 +101,11 @@ class _LoginForm extends StatelessWidget {
                     textNameController.text, texPasswordController.text);
 
                 print(respuesta);
-                //if(respuesta.)
-                if (respuesta.contains('name')) {
+                if (respuesta.contains('email')) {
                   print('si tiene ');
                 }
-                if (respuesta.contains('name')) {
+                if (respuesta.contains('email')) {
+
                   Map<String, dynamic> userMap = jsonDecode(respuesta);
                   User user = User.fromMap(userMap);
                   Navigator.pushNamed(context, 'home', arguments: user);

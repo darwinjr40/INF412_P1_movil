@@ -22,7 +22,7 @@ class _HomeScreenState extends State<HomeScreen> {
     // List<Proceso> procesos = ;
     return Scaffold(
       appBar: AppBar(
-        title: Text('Procesos user: ${user.name}'),
+        title: Text('Nombre de usuario: ${user.name}'),
         actions: [
           IconButton(
             icon: Icon(Icons.person),
@@ -36,7 +36,6 @@ class _HomeScreenState extends State<HomeScreen> {
       floatingActionButton: FloatingActionButton(
         onPressed: () => cargarProcesos(user),
       ),
-      // body:
     );
   }
 
@@ -48,7 +47,7 @@ class _HomeScreenState extends State<HomeScreen> {
         if (!snapshot.hasData) {
           return Container(
             child: ListTile(
-              title: Text('No hay procesos'),
+              title: Text('No hay Consultas'),
             ),
           );
         }
@@ -63,10 +62,10 @@ class _HomeScreenState extends State<HomeScreen> {
     final List<Widget> lista = [];
     procesos = [];
     data.forEach((opt) {
-      print(opt.nombre);
+      print(opt);
       //Proceso proceso = Proceso.fromJson(opt);
       final widgetTemp = ListTile(
-        title: Text(opt.nombre),
+        title: Text(opt.specialty_nombre),
         onTap: () {
           Navigator.pushNamed(context, 'proceso', arguments: opt);
         },
@@ -79,21 +78,22 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Future<List<dynamic>> cargarProcesos(User user) async {
     var response;
-    if (user.tipoId == 3) {
-      //es juez
-      /* response = await http.get(Uri.parse(
-          'http://192.168.0.10/GestorDocumento/public/api/procesos/juez/${user.id}')); */
-      response = await http.get(Uri.parse(
-          'https://gestordocumento.herokuapp.com/api/procesos/juez/${user.id}'));
-    }
-    if (user.tipoId == 2) {
-      //es procurador
+    print(user.tipo);
+    // if (user.tipo == 'A')
+    //   //es juez
+    //   /* response = await http.get(Uri.parse(
+    //       'http://192.168.0.10/GestorDocumento/public/api/procesos/juez/${user.id}')); */
+    //   response = await http.get(Uri.parse(
+    //       'https://gestordocumento.herokuapp.com/api/procesos/juez/${user.id}'));
+    // }
+    if (user.tipo == 'P') {
+      //es PACIENTE
       /* response = await http.get(Uri.parse(
           'http://192.168.0.10/GestorDocumento/public/api/procesos/${user.id}')); */
       response = await http.get(Uri.parse(
-          'https://gestordocumento.herokuapp.com/api/procesos/${user.id}'));
+          'http://192.168.1.2:8080/clinica/public/api/inquiries/${user.id}'));
     }
-    // print(response.body);
+    print(response.body);
     var jsonResponse = convert.jsonDecode(response.body);
     for (var item in jsonResponse) {
       Proceso proceso = Proceso.fromMap(item);
