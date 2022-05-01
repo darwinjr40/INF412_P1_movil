@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'dart:convert';
 
-class Actuacion {
+class Recipe {
   int id;
   int patient_id;
   String path;
   String name_file;
   String fecha_file;
 
-  Actuacion({
+  Recipe({
     this.id,
     this.patient_id,
     this.path,
@@ -16,9 +16,9 @@ class Actuacion {
     this.fecha_file,
   });
 
-  factory Actuacion.fromJson(String str) => Actuacion.fromMap(json.decode(str));
+  factory Recipe.fromJson(String str) => Recipe.fromMap(json.decode(str));
 
-  factory Actuacion.fromMap(Map<String, dynamic> json) => Actuacion(
+  factory Recipe.fromMap(Map<String, dynamic> json) => Recipe(
         id: json["id"],
         patient_id: json["patient_id"],
         path: json["path"],

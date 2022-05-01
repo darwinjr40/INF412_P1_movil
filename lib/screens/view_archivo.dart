@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:gestor/models/Actuacion.dart';
+import 'package:gestor/models/Recipe.dart';
 import 'package:gestor/screens/pdf_viewer_screen.dart';
 import 'package:http/http.dart' as http;
 import 'package:path_provider/path_provider.dart';
@@ -10,8 +10,8 @@ import 'package:path/path.dart';
 class ViewArchivoPDF extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    Actuacion actuacion =
-        ModalRoute.of(context).settings.arguments as Actuacion;
+    Recipe actuacion =
+        ModalRoute.of(context).settings.arguments as Recipe;
     String tipo = actuacion.name_file;
 
     return Scaffold(
@@ -95,23 +95,16 @@ class ViewArchivoPDF extends StatelessWidget {
   }
 
   Future<File> loadNetword(String url) async {
-    print("loadNetword0a");
     final response = await http.get(Uri.parse(url));
-    print("loadNetword1a");
     final bytes = response.bodyBytes;
-    print("loadNetword2a");
     return _storeFile(url, bytes);
   }
 
   Future<File> _storeFile(String url, List<int> bytes) async {
     final filename = basename(url);
-    print("_storeFile0a");
     final dir = await getApplicationDocumentsDirectory();
-    print("_storeFile1a");
     final file = File('${dir.path}/$filename');
-    print("_storeFile2a");
     await file.writeAsBytes(bytes, flush: true);
-    print("_storeFile3a");
     return file;
   }
 

@@ -100,9 +100,9 @@ class _LoginForm extends StatelessWidget {
                 final String respuesta = await authService.login(
                     textNameController.text, texPasswordController.text);
 
-                print(respuesta);
+                // print(respuesta);
                 if (respuesta.contains('email')) {
-                  print('si tiene ');
+                  // print('si tiene ');
                 }
                 if (respuesta.contains('email')) {
 

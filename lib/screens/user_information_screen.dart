@@ -21,17 +21,10 @@ class UserInformationScreen extends StatelessWidget {
           children: [
             fila('Username', user.name),
             fila('nombre', user.nombre),
-            // fila('ci', user.ci),
-            fila('telefono', user.telefono),
+            fila('fecha', user.fecha),
             fila('genero', user.sexo),
             fila('email', user.email),
-            fila(
-                'Tipo',
-                (user.tipo == 'P')//1
-                    ? 'Abogado'
-                    : (user.tipo == 'D')//2
-                        ? 'Procurador'
-                        : 'Juez'), //'A3
+            fila('Tipo', (user.tipo == 'P') ? 'Paciente': 'Doctor') //'A3
           ],
         ),
       ),

@@ -13,7 +13,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   @override
-  List<Proceso> procesos = [];
+  List<Inquiry> procesos = [];
 
   Widget build(BuildContext context) {
     // final authService = Provider.of<AuthService>(context, listen: false);
@@ -32,18 +32,18 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ],
       ),
-      body: listarProcesos(user),
+      body: listarInquiries(user),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => cargarProcesos(user),
+        onPressed: () => cargarInquiries(user),
       ),
     );
   }
 
-  Widget listarProcesos(User user) {
+  Widget listarInquiries(User user) {
     return FutureBuilder(
-      future: cargarProcesos(user),
+      future: cargarInquiries(user),
       builder: (context, AsyncSnapshot<List<dynamic>> snapshot) {
-        print(snapshot);
+        // print(snapshot);
         if (!snapshot.hasData) {
           return Container(
             child: ListTile(
@@ -52,17 +52,17 @@ class _HomeScreenState extends State<HomeScreen> {
           );
         }
         return ListView(
-          children: listaProcesos(snapshot.data, context),
+          children: listaInquiries(snapshot.data, context),
         );
       },
     );
   }
 
-  List<Widget> listaProcesos(List<dynamic> data, BuildContext context) {
+  List<Widget> listaInquiries(List<dynamic> data, BuildContext context) {
     final List<Widget> lista = [];
     procesos = [];
     data.forEach((opt) {
-      print(opt);
+      // print(opt);
       //Proceso proceso = Proceso.fromJson(opt);
       final widgetTemp = ListTile(
         title: Text(opt.specialty_nombre),
@@ -76,27 +76,19 @@ class _HomeScreenState extends State<HomeScreen> {
     return lista;
   }
 
-  Future<List<dynamic>> cargarProcesos(User user) async {
+  Future<List<dynamic>> cargarInquiries(User user) async {
     var response;
-    print(user.tipo);
-    // if (user.tipo == 'A')
-    //   //es juez
-    //   /* response = await http.get(Uri.parse(
-    //       'http://192.168.0.10/GestorDocumento/public/api/procesos/juez/${user.id}')); */
-    //   response = await http.get(Uri.parse(
-    //       'https://gestordocumento.herokuapp.com/api/procesos/juez/${user.id}'));
-    // }
     if (user.tipo == 'P') {
       //es PACIENTE
-      /* response = await http.get(Uri.parse(
-          'http://192.168.0.10/GestorDocumento/public/api/procesos/${user.id}')); */
-      response = await http.get(Uri.parse(
-          'http://192.168.1.2:8080/clinica/public/api/inquiries/${user.id}'));
+      // response = await http.get(Uri.parse(
+      //     'http://192.168.1.2:8080/clinica/public/api/inquiries/${user.id}'));
+       response = await http.get(Uri.parse(
+          'http://193.123.99.38/api/inquiries/${user.id}')); 
     }
-    print(response.body);
+    // print(response.body);
     var jsonResponse = convert.jsonDecode(response.body);
     for (var item in jsonResponse) {
-      Proceso proceso = Proceso.fromMap(item);
+      Inquiry proceso = Inquiry.fromMap(item);
       // print(proceso.nombre);
       // print('object');
       procesos.add(proceso);

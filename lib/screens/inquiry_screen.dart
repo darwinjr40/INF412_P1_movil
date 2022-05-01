@@ -6,20 +6,20 @@ import 'package:file_picker/file_picker.dart';
 import 'package:open_file/open_file.dart';
 import 'package:image_picker/image_picker.dart';
 
-class ProcesoScreen extends StatefulWidget {
+class InquiryScreen extends StatefulWidget {
   @override
-  _ProcesoScreenState createState() => _ProcesoScreenState();
+  _InquiryScreenState createState() => _InquiryScreenState();
 }
 
-class _ProcesoScreenState extends State<ProcesoScreen> {
-  List<Actuacion> listaActuaciones = [];
+class _InquiryScreenState extends State<InquiryScreen> {
+  List<Recipe> listaActuaciones = [];
   @override
   Widget build(BuildContext context) {
-    final Proceso proceso =
-        ModalRoute.of(context).settings.arguments as Proceso;
+    final Inquiry proceso =
+        ModalRoute.of(context).settings.arguments as Inquiry;
     return Scaffold(
       appBar: AppBar(
-        title: Text('Proceso: ${proceso.specialty_nombre}'),
+        title: Text('Servicio: ${proceso.specialty_nombre}'),
         actions: [IconButton(icon: Icon(Icons.replay), onPressed: () {})],
       ),
       body: ListView(
@@ -28,17 +28,7 @@ class _ProcesoScreenState extends State<ProcesoScreen> {
           SizedBox(
             height: 20.0,
           ),
-          Text('ARCHIVOS DEL PROCESO'),
-          Container(
-            child: ElevatedButton(
-              onPressed: () async {
-                Navigator.pushNamed(context, 'subir_archivo',
-                    arguments: proceso);
-              },
-              child: Text('Subir Presentación'),
-            ),
-            padding: EdgeInsets.symmetric(horizontal: 70, vertical: 12),
-          ),
+          Text('ARCHIVOS DE CONSULTAS'),
           SizedBox(
             height: 20.0,
           ),
@@ -53,7 +43,7 @@ class _ProcesoScreenState extends State<ProcesoScreen> {
     super.initState();
   }
 
-  Widget datos(Proceso proceso) {
+  Widget datos(Inquiry proceso) {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.all(Radius.circular(0.0)),
@@ -104,7 +94,7 @@ class _ProcesoScreenState extends State<ProcesoScreen> {
 
   Widget cargarDataTable(int id) {
     return FutureBuilder(
-      future: cargarActuaciones(id),
+      future: cargarRecipes(id),
       builder: (context, AsyncSnapshot<List<dynamic>> snapshot) {
         if (!snapshot.hasData) {
           return Container(
@@ -114,46 +104,41 @@ class _ProcesoScreenState extends State<ProcesoScreen> {
         return DataTable(
           showCheckboxColumn: false,
           columns: [
-            DataColumn(label: Text('Tiutlo')),
+            DataColumn(label: Text('Nro')),
             DataColumn(label: Text('tipo')),
             DataColumn(label: Text('formato')),
             // DataColumn(label: Text('fecha')),
           ],
-          rows: dataRowsActuaciones(),
+          rows: dataRowsRecipes(),
         );
       },
     );
   }
 
-  Future<List<dynamic>> cargarActuaciones(int id) async {
-    /* var response = await http.get(Uri.parse(
-        'http://192.168.0.10/GestorDocumento/public/api/getActuaciones/$id')); */
-    var response = await http.get(
-        Uri.parse('http://192.168.1.2:8080/clinica/public/api/getRecipe/$id'));
-    print(response);
+  Future<List<dynamic>> cargarRecipes(int id) async {
+    // var response = await http.get(
+    //     Uri.parse('http://192.168.1.2:8080/clinica/public/api/getRecipe/$id'));
+    var response =
+        await http.get(Uri.parse('http://193.123.99.38/api/getRecipe/$id'));
     var jsonResponse = convert.jsonDecode(response.body);
-    print("chaxdval");
-    print(jsonResponse);
-    print("chaval1");
     for (var item in jsonResponse) {
-      Actuacion actuacion = Actuacion.fromMap(item);
+      Recipe actuacion = Recipe.fromMap(item);
       listaActuaciones.add(actuacion);
     }
-    //print(listaActuaciones);
     return listaActuaciones;
   }
 
-  List<DataRow> dataRowsActuaciones() {
+  List<DataRow> dataRowsRecipes() {
     List<DataRow> lista = [];
     for (var actuacion in listaActuaciones) {
       var row = DataRow(
         cells: [
-          DataCell(Text(
-            actuacion.name_file
-            // style: (actuacion.importante == 'si')
-            //     ? TextStyle(color: Colors.blue, fontWeight: FontWeight.bold)
-            //     : TextStyle(),
-          )),
+          DataCell(Text(actuacion.id.toString(),
+              style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold)
+              // style: (actuacion.importante == 'si')
+              //     ? TextStyle(color: Colors.blue, fontWeight: FontWeight.bold)
+              //     : TextStyle(),
+              )),
           DataCell(Text(actuacion.name_file)),
           DataCell(
             (actuacion.name_file == 'imagen')
@@ -169,8 +154,7 @@ class _ProcesoScreenState extends State<ProcesoScreen> {
           // DataCell(Text(actuacion.fecha)),
         ],
         onSelectChanged: (bool selected) {
-          print('${actuacion.name_file}');
-          String path = actuacion.path;
+          // print('${actuacion.name_file}');
           Navigator.pushNamed(context, 'view_archivopdf', arguments: actuacion);
         },
       );

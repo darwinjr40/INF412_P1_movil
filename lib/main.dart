@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:gestor/screens/subir_archivo_screen.dart';
 import 'package:gestor/services/services.dart';
 import 'package:provider/provider.dart';
 import 'package:gestor/screens/screens.dart';
+
 
 void main() => runApp(AppState());
 
@@ -34,8 +34,7 @@ class MyApp extends StatelessWidget {
         'login': (_) => LoginScreen(),
         'home': (_) => HomeScreen(),
         'register': (_) => RegisterScreen(),
-        'proceso': (_) => ProcesoScreen(),
-        'subir_archivo': (_) => SubirArchivoScreen(),
+        'proceso': (_) => InquiryScreen(),
         'user_information': (_) => UserInformationScreen(),
         'view_archivopdf': (_) => ViewArchivoPDF(),
         'image_view': (_) => ImageViewScreen(),

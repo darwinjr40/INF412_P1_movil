@@ -6,7 +6,7 @@ class User {
   String name;
   String nombre;
   String tipo;
-  String telefono;
+  String fecha;
   String email;
   String sexo;
   // List<String> tipos;
@@ -16,12 +16,12 @@ class User {
     this.name,
     this.nombre,
     this.tipo,
-    this.telefono,
+    this.fecha,
     this.email,
     this.sexo,
     // this.tipos,
   });
-  
+
   factory User.fromJson(String str) => User.fromMap(json.decode(str));
 
   factory User.fromMap(Map<String, dynamic> json) => User(
@@ -29,7 +29,7 @@ class User {
         name: json["name"],
         nombre: json["nombre"],
         tipo: json["tipo"],
-        telefono: json["telefono"],
+        fecha: json["fecha"],
         email: json["email"],
         sexo: json["sexo"],
       );

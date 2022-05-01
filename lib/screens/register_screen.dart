@@ -165,63 +165,6 @@ class __LoginFormState extends State<_LoginForm> {
               ),
             ),
             SizedBox(height: 30),
-            MaterialButton(
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10)),
-              disabledColor: Colors.grey,
-              elevation: 0,
-              color: Colors.deepPurple,
-              onPressed: () async {
-                FocusScope.of(context).unfocus();
-                if (!camposValidos()) {
-                  return showDialog(
-                    context: context,
-                    builder: (_) => _DialogoAlerta(
-                      mensaje: "Campos no válidos",
-                    ),
-                  );
-                }
-
-                final authService =
-                    Provider.of<AuthService>(context, listen: false);
-
-                // final String
-                final String respuesta = await authService.registerProcurador(
-                    textUserNameController.text,
-                    textNombreController.text,
-                    textCiController.text,
-                    textTelefonoController.text,
-                    textEmailController.text,
-                    _generoSeleccionado,
-                    textPasswordController.text);
-
-                print(respuesta);
-                Map<String, dynamic> response = jsonDecode(respuesta);
-                print(response);
-                //if(respuesta.)
-                /* if (respuesta.contains('name')) {
-                  print('si tiene ');
-                } */
-                if (respuesta.contains('name')) {
-                  Map<String, dynamic> userMap = jsonDecode(respuesta);
-                  User user = User.fromMap(userMap);
-                  Navigator.pushNamed(context, 'home', arguments: user);
-                } else {
-                  showDialog(
-                      context: context,
-                      builder: (_) => _DialogoAlerta(
-                            mensaje: response['message'],
-                          ));
-                }
-              },
-              child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 80, vertical: 12),
-                child: Text(
-                  'Registrarme',
-                  style: TextStyle(color: Colors.white),
-                ),
-              ),
-            )
           ],
         ),
       ),

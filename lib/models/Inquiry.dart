@@ -1,40 +1,43 @@
 import 'package:flutter/material.dart';
 import 'dart:convert';
 
-class Proceso {
+class Inquiry {
   int id;
   int patient_id;
   int doctor_id;
   int specialty_id;
   String descripcion;
-  String url;
+  String path;
+  String pathLocal;
   String fecha;
   String tipo;
   String doctor_nombre;
   String specialty_nombre;
-  Proceso({
+
+  Inquiry({
     this.id,
     this.patient_id,
     this.doctor_id,
     this.specialty_id,
     this.descripcion,
-    this.url,
+    this.path,
+    this.pathLocal,
     this.fecha,
     this.tipo,
     this.doctor_nombre,
-    this.specialty_nombre,
-      
+    this.specialty_nombre,      
   });
 
-  factory Proceso.fromJson(String str) => Proceso.fromMap(json.decode(str));
+  factory Inquiry.fromJson(String str) => Inquiry.fromMap(json.decode(str));
 
-  factory Proceso.fromMap(Map<String, dynamic> json) => Proceso(
+  factory Inquiry.fromMap(Map<String, dynamic> json) => Inquiry(
       id: json["id"],
       doctor_id: json["doctor_id"],
       patient_id: json["patient_id"],
       specialty_id: json["specialty_id"],
       descripcion: json["descripcion"],
-      url: json["url"],
+      path: json["path"],
+      pathLocal: json["pathLocal"],
       fecha: json["fecha"],
       tipo: json["tipo"],
       doctor_nombre: json["doctor_nombre"],
